@@ -1,7 +1,19 @@
 <%- include("partials/header.ejs") -%>
 
     <h1>Compose</h1>
-    <input type="text" name="contentToPublish">
-    <button type="submit">Publish</button>
+    <form action="/compose" method="post" autocomplete="off">
+        <div class="form-floating">
+            <label for="floatingTitle">Title</label>
+            <input type="text" class="form-control" name="postTitleFromCompose">
+        
+            <label for="floatingTextarea2">Post</label>
+            <textarea class="form-control" placeholder="" id="floatingTextarea2" style="height: 100px" name="postBodyFromCompose"></textarea>
+        </div>
+   
+        <div class="col-12" style="margin-top: 10px;">
+            <button type="submit" class="btn btn-primary" name="publishButton">Publish</button>
+        </div>
+    
+    </form>
 
 <%- include("partials/footer.ejs") -%>
