@@ -5,8 +5,12 @@
 
     <% postFromHome.forEach(function(post){   %>
         <h1> <%= post.title %>  </h1>
-        <p> <%= post.content %> </p> 
+        <p> <%= truncate(post.content, ) %> <a href="/posts/<%= post.slug %>" target="_self">Read More</a></p> 
         <% }); %>
-    
+
+    <% function truncate(content) { %>
+        <% var trimmedContent = content.slice(0,100) + " ..."; %>
+        <% return trimmedContent; %>
+        <% } %>
 
 <%- include("partials/footer.ejs") -%>

@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+var _ = require('lodash');
 
 const homeStartingContent = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt quidem accusantium explicabo, aliquam porro sequi suscipit neque fugiat consectetur delectus sed. Maxime porro iste reprehenderit deserunt cumque qui repellendus totam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt quidem accusantium explicabo, aliquam porro sequi suscipit neque fugiat consectetur delectus sed. Maxime porro iste reprehenderit deserunt cumque qui repellendus totam";
 const aboutContent = "About content Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt quidem accusantium explicabo, aliquam porro sequi suscipit neque fugiat consectetur delectus sed. Maxime porro iste reprehenderit deserunt cumque qui repellendus totam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt quidem accusantium explicabo, aliquam porro sequi suscipit neque fugiat consectetur delectus sed. Maxime porro iste reprehenderit deserunt cumque qui repellendus totam";
@@ -42,6 +43,7 @@ app.get("/compose",function(req,res){
 app.post("/compose", function(req,res){
     const postContent = {
         title: req.body.postTitleFromCompose, 
+        slug: _.kebabCase(req.body.postTitleFromCompose),
         content: req.body.postBodyFromCompose
     };
     posts.push(postContent);
@@ -49,13 +51,20 @@ app.post("/compose", function(req,res){
 });
 
 app.get("/posts/:postsValue", function(req, res){
-    var postUrlValue = (req.params.postsValue).toLowerCase();
+    var postUrlValue = _.lowerCase(req.params.postsValue);
     posts.forEach(function(postItem) {
 
-        var postTitle = (postItem.title).toLowerCase(); 
-    if(postTitle === postUrlValue ) {
-        console.log("Match Found!");
-        console.log(postTitle);
-    } else { console.log("Match NOT Found!"); }
+        var postTitle = _.lowerCase(postItem.title); 
+            if(postTitle === postUrlValue ) {
+            //     console.log("Match Found!");
+            //     console.log(postTitle);
+            // } else { console.log("Match NOT Found!"); }
+                var title = postItem.title;
+                var content = postItem.content;
+                res.render("post", {postPageTitleFromPostsPage: title, postPageContentFromPostsPage: content});
+            }
+
     });
+
 });
+
